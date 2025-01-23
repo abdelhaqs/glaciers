@@ -1,20 +1,9 @@
-version: '3.8'
-
+version: '3.9'
 services:
-  rust-python-jupyter:
-    image: python:3.9-slim  # Lightweight Python image
-    container_name: rust-python-jupyter
-    stdin_open: true
-    tty: true
+  rust-python-notebook:
+    build: .
     ports:
-      - "8888:8888"  # Exposes Jupyter Notebook on port 8888
+      - "8888:8888"
     volumes:
-      - ./notebooks:/home/notebooks  # Mounts a local directory for notebooks
-    working_dir: /home
-    command: bash -c "jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root"
-    environment:
-      - CARGO_HOME=/usr/local/cargo  # Configures Rust's package manager
-      - PATH=/usr/local/cargo/bin:$PATH
-    build:
-      context: .
-      dockerfile: Dockerfile
+      - .:/app
+    tty: true
